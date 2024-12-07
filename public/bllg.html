@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    #qrcode-container {
+      margin-top: 50px;
+    }
+    #qrcode {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ddd;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="qrcode-container">
+    <img id="qrcode" src="" alt="QR Code will appear here" />
+    <p id="status">Fetching QR Code...</p>
+  </div>
+
+  <script>
+    // 保存二维码的 key
+    let qrcodeKey = null;
+
+    // 加载二维码并展示
+    async function loadQRCode() {
+      try {
+        const response = await fetch('/api/qrcode/generate');
+        const data = await response.json();
+
+        if (data.code === 0 && data.data) {
+          const { qrImageUrl, qrcode_key } = data.data;
+          document.getElementById('qrcode').src = qrImageUrl;
+          document.getElementById('status').textContent = "Scan the QR Code to log in.";
+          qrcodeKey = qrcode_key; // 保存二维码的 key
+        } else {
+          document.getElementById('status').textContent = "Failed to load QR Code.";
+        }
+      } catch (error) {
+        console.error('Error loading QR code:', error);
+        document.getElementById('status').textContent = "Error loading QR Code.";
+      }
+    }
+
+    // 初始化加载二维码
+    loadQRCode();
+  </script>
+  
+</body>
+</html>

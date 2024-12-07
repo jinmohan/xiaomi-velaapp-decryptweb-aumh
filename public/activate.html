@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备码与表盘ID解密</title>
+</head>
+<body>
+    <h1>设备码与表盘ID解密</h1>
+    
+    <label for="device-code">设备码:</label>
+    <input type="text" id="device-code" name="device-code" required><br><br>
+
+    <label for="watch-id">表盘ID:</label>
+    <input type="text" id="watch-id" name="watch-id" required><br><br>
+
+    <button id="submit-btn">确定</button>
+    
+    <h3>解密结果:</h3>
+    <pre id="result"></pre>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', async function () {
+            const deviceCode = document.getElementById('device-code').value;
+            const watchId = document.getElementById('watch-id').value;
+
+            // 检查是否填写了设备码和表盘ID
+            if (!deviceCode || !watchId) {
+                alert('请填写设备码和表盘ID');
+                return;
+            }
+
+            try {
+                // 发送POST请求到后端解密接口
+                const response = await fetch('http://localhost:80/api/decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ deviceCode, watchId })
+                });
+
+                // 处理响应
+                const data = await response.json();
+                if (data.code === 0) {
+                    // 解密成功，显示解密后的密码
+                    document.getElementById('result').textContent = `解密成功: ${data.data.unlockPwd}`;
+                } else {
+                    // 解密失败
+                    document.getElementById('result').textContent = `解密失败: ${data.message}`;
+                }
+            } catch (error) {
+                console.error('请求错误:', error);
+                // 请求失败，显示错误信息
+                document.getElementById('result').textContent = '请求失败，请稍后重试';
+            }
+        });
+    </script>
+</body>
+</html>
