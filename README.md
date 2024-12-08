@@ -23,9 +23,9 @@
 
 1. 克隆项目到本地：
 
-   ```
-   git clone https://github.com/YourUsername/your-repo-name.git
-   ```
+```
+git clone https://github.com/YourUsername/your-repo-name.git
+```
 2.进入项目目录并安装依赖：
   ```复制代码
 cd your-repo-name
