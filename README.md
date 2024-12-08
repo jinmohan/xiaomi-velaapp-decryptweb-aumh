@@ -37,6 +37,7 @@ npm install
 npm start
 ```
 默认情况下，项目会在本地 http://localhost:80 启动。
+哔哩哔哩登录页面需要手动输入切换到bllg.html
 
 # 环境要求
 ## Node.js 版本：22.12.0
