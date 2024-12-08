@@ -62,7 +62,7 @@ app.get('/api/qrcode/generate', async (req, res) => {
   }
 });
 
-// 新增解密接口
+// 解密接口
 app.post('/api/decrypt', async (req, res) => {
   console.log(chalk.cyan(`[${getTime()}] Decrypt request received`));
   const { deviceCode, watchId } = req.body;
